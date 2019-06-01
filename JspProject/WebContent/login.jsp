@@ -11,7 +11,7 @@
 <title>Simpltron</title>
 </head>
 <body>
-	<!-- 화면이 작아지면 메뉴 생성하여 볼 수 있게-->
+	<!-- 화면이 작아지면 메뉴 생성하여 볼 수 있게 !-->
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
