@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width" initial-scale="1">
 <!-- 스타일시트 참조  -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
-<title>Simpltron</title>
+<title>Simpletron</title>
 </head>
 <body>
 	<!-- 네비게이션  -->
@@ -23,7 +23,7 @@
 			<a class="navbar-brand" href="main.jsp">JSP 게시판</a>
 		</div>
 		<div class="collapse navbar-collapse"
-			id="#bs-example-navbar-collapse-1">
+			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="main.jsp">메인</a></li>
 				<li><a href="bbs.jsp">게시판</a></li>

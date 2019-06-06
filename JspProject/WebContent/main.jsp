@@ -4,12 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 뷰포트 -->
-<meta name="viewport" content="width=device-width" initial-scale="1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 스타일시트 참조  -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<title>Simpltron</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel='stylesheet' href='css/index.css'>
+<title>Simpletron</title>
 </head>
 <body>
 	<%
@@ -30,7 +33,7 @@
 			<a class="navbar-brand" href="main.jsp">JSP 게시판</a>
 		</div>
 		<div class="collapse navbar-collapse"
-			id="#bs-example-navbar-collapse-1">
+			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.jsp">메인</a></li>
 				<li><a href="bbs.jsp">게시판</a></li>
@@ -63,6 +66,32 @@
 			%>
 		</div>
 	</nav>
+	<div id='links'>
+		<p>도움말</p>
+		<a href='readme.md'>심플트론이란?</a> <br />
+	</div>
+	<div id='code'>
+		<div>입력 값</div>
+		<textarea wrap='off'></textarea>
+	</div>
+	<div id='output'>
+		<div>결과 값</div>
+		<textarea wrap='off' readonly></textarea>
+	</div>
+	<br>
+	<button id='btn-load'>메모리에 올리기</button>
+	<button id='btn-exec'>실행하기</button>
+	<button id='btn-debug'>한 줄씩 실행하기</button>
+	<button id='btn-clear'>결과창 비우기</button>
+
+	<div id='dump'>
+		<div>메모리 확인</div>
+		<textarea readonly></textarea>
+	</div>
+
+	<script src='js/opcodes.js'></script>
+	<script src='js/index.js'></script>
+
 	<!-- 애니매이션 담당 JQUERY -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!-- 부트스트랩 JS  -->
