@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel='stylesheet' href='css/index.css'>
 <title>Simpletron</title>
+<style>
+</style>
 </head>
 <body>
 	<%
