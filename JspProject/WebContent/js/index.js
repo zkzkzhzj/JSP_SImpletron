@@ -142,11 +142,11 @@ function execInstruction() {
             accumulator *= memory[operand];
             break;
         case opcodes.DIVIDE:
-            if(accumulator === 0) {
+            if(accumulator == 0) {
                 consoleStatus('FATAL ERROR: division by zero');
                 halt();
             } else {
-                accumulator = ~~(memory[operand] / accumulator);    
+                accumulator /= memory[operand];
             }
             break;
         case opcodes.BRANCH:
