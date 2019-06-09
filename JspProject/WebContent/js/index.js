@@ -1,15 +1,15 @@
-// SML execution
+// 실행
 var memory = [],
-    instructionCounter = 0,
-    instructionRegister = 0,
-    operator = 0,
-    operand = 0,
+    instructionCounter = 0,	// 수행되고 있는 명령을 포함하는 메모리의 위치 탐지
+    instructionRegister = 0, // 현재의 명령
+    operator = 0, // 연산부(왼쪽 숫자 2자리)
+    operand = 0, // 주소부(오른쪽 숫자 2자리)
     nextCounter = 0,
-    accumulator = 0,
+    accumulator = 0, // 누산기
     halted = false,
     debug = false;
 
-// DOM Elements
+// 사용자 요청
 var btnLoad = document.getElementById('btn-load'),
     btnExec = document.getElementById('btn-exec'),
     btnDebug = document.getElementById('btn-debug'),
@@ -17,18 +17,19 @@ var btnLoad = document.getElementById('btn-load'),
     code = document.querySelector('#code textarea'),
     output = document.querySelector('#output textarea');
 
-// Initialize memory
+// 메모리 초기화
 for(var i = 0; i < 100; i++) {
     memory.push(0);
 }
 
-// Constantly update the memory dump
+// 메모리 덤프 주기적으로 업데이트
 setInterval(function() {
-    var dump = 'accumulator:\t\t' + format(accumulator) + 
-        '\ninstructionCounter:\t' + format(instructionCounter) + 
-        '\nnextCounter:\t\t' + format(nextCounter) +
-        '\ninstructionRegister:\t' + format(instructionRegister) + 
-        '\n\n\t0\t1\t2\t3\t4\t5\t6\t7\t8\t9\n';
+	
+    var dump = '누산기:\t\t' + format(accumulator) + 
+        '\n명령 계수기:\t' + format(instructionCounter) + 
+        '\n다음 명령어:\t' + format(nextCounter) +
+        '\n명령 레지스터\t' + format(instructionRegister) + 
+        '\n\n\t\t0\t\t1\t\t2\t\t3\t\t4\t\t5\t\t6\t\t7\t\t8\t\t9\n';
     
     for(var i1 = 0; i1 < 10; i1++) {
         dump += i1 * 10;
@@ -43,15 +44,15 @@ setInterval(function() {
     document.querySelector('#dump textarea').innerText = dump;
 }, 100);
 
-// Load the machine code into memory
+// 코드를 메모리에 올림
 btnLoad.addEventListener('click', function() {
-    btnDebug.innerText = 'Start Debug';
+    btnDebug.innerText = '한 줄씩 실행하기';
     
     debug = false;
     var lines = code.value.split('\n');
 
     if(isValid(lines)) {
-        consoleStatus('Program loaded onto memory');
+        consoleStatus('프로그램을 메모리에 올렸습니다');
 
         memory.forEach(function(value, index) {
             if(index < lines.length) {
@@ -66,14 +67,14 @@ btnLoad.addEventListener('click', function() {
     }
 });
 
-// Execute the instructions in the memory
+// 코드를 메모리에 올림
 btnExec.addEventListener('click', function() {
     if(debug) {
-        alert('You are already debugging. Please click "Load into memory" to stop debugging.');
+        alert('이미 디버깅 중입니다.');
         return;
     }
     
-    consoleStatus('Beginning program execution');
+    consoleStatus('프로그램 시작');
 
     halted = false;
     instructionCounter = 0;
@@ -85,7 +86,7 @@ btnExec.addEventListener('click', function() {
     }
 });
 
-// Step through the code line-by-line
+// 한 줄씩 실행
 btnDebug.addEventListener('click', function() {
     if(!debug) {
         debug = true;
@@ -94,18 +95,24 @@ btnDebug.addEventListener('click', function() {
         nextCounter = 0;
         accumulator = 0;
         
-        btnDebug.innerText = 'Next Line';
+        btnDebug.innerText = '다음 라인';
     }
     
     execInstruction();
 });
 
-// Clear the console
+// 콘솔창 클리어
 btnClear.addEventListener('click', function() {
-    output.value = '';
+    output.value = '*** Welcome to Simpletron! ***\n' + 
+    '*** Please enter your program one istruction ***\n' +
+    '*** (or data word) at a time. I will type the ***\n' +
+    '*** location num and a question mark (?) ***\n' + 
+    '*** You then type the word for that location. ***\n' + 
+    '*** Type the sectinel -99999 to stop entering ***\n' +
+    '*** your program ****\n';
 });
 
-// Executes the next instruction
+// 다음 명령을 실행
 function execInstruction() {
     instructionCounter = nextCounter;
 
@@ -121,7 +128,7 @@ function execInstruction() {
 
     switch(operator) {
         case opcodes.READ:
-            memory[operand] = parseInt(prompt('Integer from -9999 to 9999'), 10) || 0;
+            memory[operand] = parseInt(prompt('입력 범위 : -9999 to 9999'), 10) || 0;
             break;
         case opcodes.WRITE:
             consoleWrite(memory[operand]);
@@ -143,7 +150,7 @@ function execInstruction() {
             break;
         case opcodes.DIVIDE:
             if(accumulator == 0) {
-                consoleStatus('FATAL ERROR: division by zero');
+                consoleStatus('에러: 0으로 나누었습니다');
                 halt();
             } else {
                 accumulator /= memory[operand];
@@ -166,24 +173,24 @@ function execInstruction() {
             halt();
             break;
         default:
-            consoleStatus('FATAL ERROR: invalid operation code');
+            consoleStatus('에러: 잘못된 요청');
             halt();
             break;
     }
 
-    // Check for accumulator overflow and underflow
+    // 입력 값 확인
     if(accumulator > 9999) {
-        consoleStatus('FATAL ERROR: accumulator overflow');
+        consoleStatus('에러: 9999 이상 수 입력');
         halt();
     } else if(accumulator < -9999) {
-        consoleStatus('FATAL ERROR: accumulator underflow');
+        consoleStatus('에러: -9999 이하 수 입력');
         halt();
     }
 
     var loc = -1;
     var flow = 0;
 
-    // Check for memory overflow and underflow
+    // 메모리 값 확인
     for(var i = 0; i < memory.length && loc === -1; i++) {
         if(Math.abs(memory[i]) > 9999) {
             loc = i;
@@ -192,14 +199,14 @@ function execInstruction() {
     }
 
     if(loc > -1) {
-        consoleStatus('FATAL ERROR: ' + (flow === -1 ? 'under' : 'over') + 'flow at memory location ' + loc);
+        consoleStatus('에러: ' + (flow === -1 ? 'under' : 'over') + 'flow at memory location ' + loc);
         halt();
     }
 }
 
-// Determines whether the SML code is valid
+// 코드가 유요한지 체크
 function isValid(lines) {
-    // Make sure that every line matches the correct format
+    // 모든 행이 올바른 형식과 일치하는지 확인
     if(lines.filter(function(value) {
         return !value.match(/^\d{2}: (\+|-)?\d{4}$/ig);
     }).length) {
@@ -207,7 +214,7 @@ function isValid(lines) {
     } else {
         var valid = true;
 
-        // Make sure that the memory locations are in order
+        // 메모리 위치가 올바른지 확인
         lines.forEach(function(value, index) {
             var num = parseInt(value.substring(0, 2), 10);
 
@@ -230,32 +237,32 @@ function isValid(lines) {
     return true;
 }
 
-// Displays an error message
+// 에러 메시지 출력
 function error() {
-    alert('The code does not match the SML syntax rules. Please check it and try again.');
+    alert('옳바른 입력 식인지 확인하세요');
 }
 
-// Halts the SML code
+// 프로그램 종료
 function halt() {
-    consoleStatus('Program halted');
+    consoleStatus('프로그램 종료');
     halted = true;
     debug = false;
     
-    btnDebug.innerText = 'Start Debug';
+    btnDebug.innerText = '한 줄씩 실행하기';
 }
 
-// Writes to the console
+// 콘솔에 기록
 function consoleWrite(val) {
     output.value += val + '\n';
     output.scrollTop = output.scrollHeight;
 }
 
-// Writes to the console with asterisks
+// 별 포함
 function consoleStatus(val) {
     consoleWrite('*** ' + val + ' ***');
 }
 
-// Formats a number for the memory dump
+// 메모리 포맷
 function format(num) {
     var sign = (num >= 0 ? '+' : '-');
     

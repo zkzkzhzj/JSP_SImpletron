@@ -11,7 +11,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 스타일시트 참조  -->
 <link rel="stylesheet" href="css/bootstrap.css">
-<link rel='stylesheet' href='css/index.css'>
 <title>Simpletron</title>
 <style>
 </style>
@@ -68,18 +67,102 @@
 			%>
 		</div>
 	</nav>
+
+	<!-- 심플트론 -->
+
+	<div class="container">
+		<div class="row">
+			<table class="table table-striped"
+				style="text-align: center; border: 1px solid #dddddd">
+				<thead>
+					<tr>
+						<th colspan="2"
+							style="background-color: #eeeeee; text-align: center;"><a
+							href='simpletronhelp.jsp'>심플트론이란?</a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div id='code'>
+								<div>입력 값</div>
+								<textarea wrap='off'></textarea>
+							</div>
+						</td>
+
+						<td>
+							<div id='output'>
+								<div>결과 값</div>
+								<textarea wrap='off' readonly>
+<%out.println("*** Welcome to Simpletron! ***");
+out.println("*** Please enter your program one istruction ***");
+out.println("*** (or data word) at a time. I will type the ***");
+out.println("*** location num and a question mark (?) ***");
+out.println("*** You then type the word for that location. ***");
+out.println("*** Type the sectinel -99999 to stop entering ***");
+out.println("*** your program ****");%>
+								</textarea>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<button id='btn-load' class="btn btn-primary pull-center">메모리에
+				올리기</button>
+			<button id='btn-exec' class="btn btn-primary pull-center">실행하기
+			</button>
+			<button id='btn-debug' class="btn btn-primary pull-center">한
+				줄씩 실행하기</button>
+			<button id='btn-clear' class="btn btn-primary pull-center">결과창
+				비우기</button>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<table class="table table-striped" style="text-align: center;">
+				<thead>
+					<tr>
+						<th style="text-align: center;">
+							<div id='dump'>
+								<div>메모리 확인</div>
+								<textarea readonly></textarea>
+							</div>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+
+
+	<script src='js/opcodes.js'></script>
+	<script src='js/index.js'></script>
+	<!-- 애니매이션 담당 JQUERY -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<!-- 부트스트랩 JS  -->
+	<script src="js/bootstrap.js"></script>
+
+</body>
+</html>
+
+<!--  
 	<div id='links'>
 		<p>도움말</p>
-		<a href='readme.md'>심플트론이란?</a> <br />
+		<a href='simpletronhelp.jsp'>심플트론이란?</a> <br />
 	</div>
+
 	<div id='code'>
 		<div>입력 값</div>
 		<textarea wrap='off'></textarea>
 	</div>
+
 	<div id='output'>
 		<div>결과 값</div>
 		<textarea wrap='off' readonly></textarea>
 	</div>
+
 	<br>
 	<button id='btn-load'>메모리에 올리기</button>
 	<button id='btn-exec'>실행하기</button>
@@ -93,10 +176,4 @@
 
 	<script src='js/opcodes.js'></script>
 	<script src='js/index.js'></script>
-
-	<!-- 애니매이션 담당 JQUERY -->
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<!-- 부트스트랩 JS  -->
-	<script src="js/bootstrap.js"></script>
-</body>
-</html>
+ -->
