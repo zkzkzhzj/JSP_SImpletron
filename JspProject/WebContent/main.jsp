@@ -38,6 +38,7 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.jsp">메인</a></li>
 				<li><a href="bbs.jsp">게시판</a></li>
+				<li><a href="simpletronhelp.jsp">심플트론이란?</a>
 			</ul>
 			<%
 				if (userID == null) {
